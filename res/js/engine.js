@@ -1,7 +1,7 @@
 Square = function(x_position, y_position)
 {   // Position is local because it shouldn't be tampered with manually
     var position = {};
-    var state = {};
+    var state = {"user": "Janne", "value": "x"};
 
     // You can only _get_ the position of a Square from the outside
     this.getPosition = function (pos)
@@ -21,8 +21,8 @@ Square = function(x_position, y_position)
     {
         if (typeof pos == "undefined" && typeof value == "object")
         {   // Check if pos is an object. If so, set position accordingly
-            position.x = value.x || value[0];
-            position.y = value.y || value[1];
+            position.x = parseInt(value.x) || parseInt(value[0]);
+            position.y = parseInt(value.y) || parseInt(value[1]);
         }
         else
         {   // Otherwise set whichever pos to whatever was given to us
@@ -52,57 +52,38 @@ Square = function(x_position, y_position)
         }
     }
 
-    // Nor should they set the object this directly.
     var setState = function (value, item)
     {
         if (typeof item == "undefined" && typeof value == "object")
-        {   // If value is an object, set state accordingly
+        {   // If value is an object, set
             state.user = value.user || value[0];
             state.value = value.value || value[1];
         }
         else
-        {   // Otherwise set state[item] = value
-            state[item.toLowerCase()] = value;
+        {
+            state[item.toLowerCase()] = value.toLowerCase();
         }
     }
 
     // Get user and value are dummy functions for getState
     this.getUser = function ()
     {
-        var state = getState("user");
-
-        if (typeof state != "undefined")
-        {   // If we have a user, return it
-            return state;
-        }
-        else
-        {   // Otherwise return null
-            return null;
-        }
+        return getState("user")
     }
 
     this.getValue = function ()
     {
-        var state = getState("value");
-
-        if (typeof state != "undefined")
-        {   // If we have a value, return it
-            return state;
-        }
-        else
-        {   // Otherwise return null
-            return null;
-        }
+        return getState("value")
     }
 
     this.setUser = function (user)
     {   // If we have a user, set status.user = user
-        if (typeof user != "undefined") {setState(user.toString(), "user");}
+        if (typeof user != "undefined") {state.user = user.toString();}
     }
 
     this.setValue = function (value)
     {   // If we have a value, set status.value = value
-        if (typeof value != "undefined") {setState(value.toString(), "value");}
+        if (typeof value != "undefined") {state.value = parseInt(value);}
     }
 
     // We want to initialize the Square when it is created.
